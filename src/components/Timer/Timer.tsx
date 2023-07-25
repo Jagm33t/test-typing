@@ -1,8 +1,30 @@
 import React, { useState, useEffect } from 'react';
 import './Timer.scss';
+import paragraphs from '../Paragraph/Paragraph';
+import Result from '../Results/Results';
 
 function Timer() {
-  const paragraphText = `"The quick brown fox jumps over the lazy dog. It was a beautiful summer day, and the sun shone brightly in the clear blue sky. The gentle breeze rustled through the leaves of the tall trees, creating a soothing melody. Children played in the nearby park, their laughter filling the air with joy. As the day went on, friends gathered for a picnic, bringing delicious food and refreshing drinks. Everyone enjoyed the day's activities, cherishing the simple moments of happiness and togetherness. Time seemed to slow down, allowing them to savor each precious second of this perfect summer day."`;
+
+  const [selectedLevel, setSelectedLevel] = useState('easy');
+  const [selectedParagraph, setSelectedParagraph] = useState<any>('');
+  const [showResult, setShowResult] = useState(false);
+
+console.log("selectedParagraph", selectedParagraph);
+
+  const handleLevelChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedLevel(event.target.value);
+    selectIndex();
+ 
+  };
+
+  const selectIndex = () => {
+    // Generate a random number between 1 and 10
+    const randomIndex = Math.floor(Math.random() * 10) + 1;
+    setSelectedParagraph(paragraphs[selectedLevel][randomIndex].content);
+    
+   
+  };
+
 
   const [timeLeft, setTimeLeft] = useState(60);
   const [inputValue, setInputValue] = useState('');
@@ -23,25 +45,32 @@ function Timer() {
   }, [timerStarted, timeLeft]);
 
   useEffect(() => {
+
+
     if (timeLeft === 0) {
       // Perform any actions you want when the timer ends (e.g., submit the test, show results)
       console.log("Time's up!");
+      setShowResult(true);
+
+      setTimerStarted(false);
+     
     }
-  }, [timeLeft]);
+  }, [timeLeft, inputValue]);
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    //Timer will start ass soon as letter is typed in input field
+     setTimerStarted(true);
+    
     const key = event.key;
 
     // Check if the key pressed matches the current character in the paragraph
-    if (key === paragraphText[currentIndex]) {
+    if (key === selectedParagraph[currentIndex]) {
       setInputValue((prevInput) => prevInput + key);
       setCurrentIndex((prevIndex) => prevIndex + 1);
     }
   };
 
-  const handleStartTimer = () => {
-    setTimerStarted(true);
-  };
+  const charactersTyped = inputValue.length;
 
   return (
     <div className='main-container'>
@@ -49,12 +78,27 @@ function Timer() {
         <h1>Test Your Typing Skills</h1>
       </div>
       <div className='main-elements'>
-        <div className='main-timer'>{timeLeft} seconds</div>
-        <div className='main-wpm'></div>
-        <div className='accuracy'></div>
+
+      <select value={selectedLevel} onChange={handleLevelChange}>
+          <option value='easy'>Easy</option>
+          <option value='medium'>Medium</option>
+          <option value='expert'>Expert</option>
+        </select>
+
+        {showResult ? (
+      <Result
+        timeElapsed={60 - timeLeft}
+        charactersTyped={charactersTyped}
+      />
+        ) : (
+          <div>
+            <div className='main-timer'>{timeLeft} seconds</div>
+            <div className='accuracy'></div>
+          </div>
+        )}
       </div>
       <div className='main-para'>
-        {paragraphText.split('').map((char, index) => {
+        {selectedParagraph.split('').map((char: string, index: number) => {
           let charClass = '';
           if (index < currentIndex) {
             charClass = inputValue[index] === char ? 'correct' : 'incorrect';
@@ -75,7 +119,6 @@ function Timer() {
           readOnly // To prevent direct input to the input field
         />
       </div>
-      <button onClick={handleStartTimer}>Start Timer</button>
     </div>
   );
 }
