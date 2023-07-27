@@ -7,7 +7,7 @@ function App() {
     <div className="App">
     
    <Timer / >
-   <img src={typing} alt="" />
+   <img className='animation-typing' src={typing} alt="" />
     </div>
   );
 }
