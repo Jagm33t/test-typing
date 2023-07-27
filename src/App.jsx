@@ -1,10 +1,13 @@
-import Timer from './components/Timer/Timer';
+import Timer from './components/Typing/Typing';
 import './App.css';
+import typing from './assets/images/typing.gif';
 
 function App() {
   return (
     <div className="App">
+    
    <Timer / >
+   <img src={typing} alt="" />
     </div>
   );
 }

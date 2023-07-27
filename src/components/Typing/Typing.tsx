@@ -1,16 +1,20 @@
 import React, { useState, useEffect } from 'react';
-import './Timer.scss';
+import './Typing.scss';
 import paragraphs from '../Paragraph/Paragraph';
 import Result from '../Results/Results';
 
-function Timer() {
+
+
+function Typing() {
 
   const [selectedLevel, setSelectedLevel] = useState('easy');
   const [selectedParagraph, setSelectedParagraph] = useState<any>('');
   const [showResult, setShowResult] = useState(false);
+  
+  // const [wrongTyped, setWrongTyped] = useState<number>(0);
 
-console.log("selectedParagraph", selectedParagraph);
 
+// console.log("wrongTyped" , wrongTyped);
   const handleLevelChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedLevel(event.target.value);
     selectIndex();
@@ -51,53 +55,64 @@ console.log("selectedParagraph", selectedParagraph);
       // Perform any actions you want when the timer ends (e.g., submit the test, show results)
       console.log("Time's up!");
       setShowResult(true);
-
       setTimerStarted(false);
+      
      
     }
-  }, [timeLeft, inputValue]);
+  }, [timeLeft]);
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
-    //Timer will start ass soon as letter is typed in input field
-     setTimerStarted(true);
-    
-    const key = event.key;
-
-    // Check if the key pressed matches the current character in the paragraph
-    if (key === selectedParagraph[currentIndex]) {
-      setInputValue((prevInput) => prevInput + key);
-      setCurrentIndex((prevIndex) => prevIndex + 1);
+    // Check if the timer is still running
+    if (timeLeft > 0) {
+      // Timer will start as soon as a letter is typed in the input field
+      setTimerStarted(true);
+  
+      const key = event.key;
+  
+      // Check if the key pressed matches the current character in the paragraph
+      if (key === selectedParagraph[currentIndex]) {
+        setInputValue((prevInput) => prevInput + key);
+        setCurrentIndex((prevIndex) => prevIndex + 1);
+      }
     }
   };
+  
 
-  const charactersTyped = inputValue.length;
+      const charactersTyped = inputValue.length;
 
   return (
     <div className='main-container'>
-      <div className='main-header'>
-        <h1>Test Your Typing Skills</h1>
-      </div>
+    <div className='main-header'>
+  <h1 className='fancy-heading'>Test Your Typing Skills</h1>
+</div>
+
       <div className='main-elements'>
-
-      <select value={selectedLevel} onChange={handleLevelChange}>
-          <option value='easy'>Easy</option>
-          <option value='medium'>Medium</option>
-          <option value='expert'>Expert</option>
-        </select>
-
-        {showResult ? (
+    <h2 className='header-two'>TYPING SPEED TEST</h2>
+      {showResult ? (
       <Result
         timeElapsed={60 - timeLeft}
         charactersTyped={charactersTyped}
       />
         ) : (
-          <div>
-            <div className='main-timer'>{timeLeft} seconds</div>
-            <div className='accuracy'></div>
+          <div className='main-clock'>
+           <div className='main-timer'>{timeLeft} </div> 
+            
           </div>
         )}
+      <div className='select-levels'>
+        <h3>Select level here:</h3>
+      <select className='select-option' value={selectedLevel} onChange={handleLevelChange}>
+          <option value='easy'>Easy</option>
+          <option value='medium'>Medium</option>
+          <option value='expert'>Expert</option>
+        </select>
       </div>
-      <div className='main-para'>
+     
+     
+
+      </div>
+      <div className='last-section'>
+        <div className='main-para'>
         {selectedParagraph.split('').map((char: string, index: number) => {
           let charClass = '';
           if (index < currentIndex) {
@@ -114,13 +129,18 @@ console.log("selectedParagraph", selectedParagraph);
       </div>
       <div className='main-inputarea'>
         <input
+        type="text"
+        placeholder="Type here..." 
+        name='input'
           value={inputValue}
           onKeyDown={handleKeyDown}
-          readOnly // To prevent direct input to the input field
+
         />
       </div>
+      </div>
+      
     </div>
   );
 }
 
-export default Timer;
+export default Typing;
