@@ -11,21 +11,23 @@ function Typing() {
   const [selectedParagraph, setSelectedParagraph] = useState<any>('');
   const [showResult, setShowResult] = useState(false);
   
-  
 
+  useEffect(() => {
+    selectIndex();
+ 
+  }, [selectedLevel]);
 
 
   const handleLevelChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedLevel(event.target.value);
-    selectIndex();
- 
-  };
-
-  const selectIndex = () => {
-    // Generate a random number between 1 and 10
-    const randomIndex = Math.floor(Math.random() * 10) + 1;
-    setSelectedParagraph(paragraphs[selectedLevel][randomIndex].content);
     
+  };
+  const selectIndex = () => {
+
+    const levelParagraphs = paragraphs[selectedLevel];
+    const randomIndex = Math.floor(Math.random() * levelParagraphs.length);
+    
+    setSelectedParagraph(levelParagraphs[randomIndex].content);
    
   };
 
@@ -101,6 +103,7 @@ function Typing() {
       <div className='select-levels'>
         <h3>Select level here:</h3>
       <select className='select-option' value={selectedLevel} onChange={handleLevelChange}>
+           <option>Select</option>
           <option value='easy'>Easy</option>
           <option value='medium'>Medium</option>
           <option value='expert'>Expert</option>
