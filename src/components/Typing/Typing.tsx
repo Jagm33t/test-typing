@@ -11,10 +11,10 @@ function Typing() {
   const [selectedParagraph, setSelectedParagraph] = useState<any>('');
   const [showResult, setShowResult] = useState(false);
   
-  // const [wrongTyped, setWrongTyped] = useState<number>(0);
+  
 
 
-// console.log("wrongTyped" , wrongTyped);
+
   const handleLevelChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedLevel(event.target.value);
     selectIndex();
@@ -52,7 +52,6 @@ function Typing() {
 
 
     if (timeLeft === 0) {
-      // Perform any actions you want when the timer ends (e.g., submit the test, show results)
       console.log("Time's up!");
       setShowResult(true);
       setTimerStarted(false);
