@@ -13,23 +13,22 @@ function Typing() {
   
 
   useEffect(() => {
+    const selectIndex = () => {
+      const levelParagraphs = paragraphs[selectedLevel];
+      const randomIndex = Math.floor(Math.random() * levelParagraphs.length);
+      setSelectedParagraph(levelParagraphs[randomIndex].content);
+      
+    };
+  
     selectIndex();
- 
-  }, [selectedLevel]);
+  }, [selectedLevel]);;
 
 
   const handleLevelChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedLevel(event.target.value);
     
   };
-  const selectIndex = () => {
-
-    const levelParagraphs = paragraphs[selectedLevel];
-    const randomIndex = Math.floor(Math.random() * levelParagraphs.length);
-    
-    setSelectedParagraph(levelParagraphs[randomIndex].content);
-   
-  };
+ 
 
 
   const [timeLeft, setTimeLeft] = useState(60);
