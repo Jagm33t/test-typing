@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './Typing.scss';
 import paragraphs from '../Paragraph/Paragraph';
 import Result from '../Results/Results';
+import 'animate.css';
 
 
 
@@ -83,11 +84,11 @@ function Typing() {
   return (
     <div className='main-container'>
     <div className='main-header'>
-  <h1 className='fancy-heading'>Test Your Typing Skills</h1>
+  <h1 className='fancy-heading animate__bounce'>Test Your Typing Skills</h1>
 </div>
 
       <div className='main-elements'>
-    <h2 className='header-two'>TYPING SPEED TEST</h2>
+    <h2 className='header-two animate__zoomInDown'>TYPING SPEED TEST</h2>
       {showResult ? (
       <Result
         timeElapsed={60 - timeLeft}
@@ -95,12 +96,12 @@ function Typing() {
       />
         ) : (
           <div className='main-clock'>
-           <div className='main-timer'>{timeLeft} </div> 
+           <div className='main-timer animate__fadeIn'>{timeLeft} </div> 
             
           </div>
         )}
       <div className='select-levels'>
-        <h3>Select level here:</h3>
+        <h3 className="animate__zoomIn">Select level here:</h3>
       <select className='select-option' value={selectedLevel} onChange={handleLevelChange}>
            <option>Select</option>
           <option value='easy'>Easy</option>

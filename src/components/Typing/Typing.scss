@@ -1,4 +1,17 @@
+.animate__zoomInDown,.animate__fadeIn {
+  display: inline-block;
+  margin: 0 0.5rem;
 
+  animation: bounce; /* referring directly to the animation's @keyframe declaration */
+  animation-duration: 3s; 
+}
+.animate__bounce,.animate__zoomIn{
+  display: block;
+  margin: 0 0.5rem;
+
+  animation: bounce; /* referring directly to the animation's @keyframe declaration */
+  animation-duration: 5s; 
+}
 
 .correct {
   color: rgb(34, 208, 34);
